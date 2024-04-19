@@ -11,4 +11,4 @@ scipy==1.10.1
 seaborn
 streamlit
 torch
-transformers==4.6
+transformers==4.3.3
