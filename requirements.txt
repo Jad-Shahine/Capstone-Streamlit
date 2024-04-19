@@ -12,4 +12,5 @@ seaborn
 streamlit
 torch
 packaging==21.3
+pyyaml
 transformers==4.3.3
