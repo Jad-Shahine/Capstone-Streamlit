@@ -11,5 +11,5 @@ seaborn
 streamlit
 torch
 transformers
-umap
+umap_
 
