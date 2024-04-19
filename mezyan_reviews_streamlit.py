@@ -261,11 +261,11 @@ negative_reviews['Processed Review Text'] = negative_reviews['Review Text'].appl
 selected_columns = ['Review Name', 'Review Text', 'Processed Review Text', 'Sentiment']
 negative_reviews = negative_reviews[selected_columns]
 
-# Setting random_state in UMAP for reproducibility
-umap_model = UMAP.UMAP(n_neighbors=15, n_components=5, min_dist=0.0, metric='cosine', random_state=42)
-
-# Instantiate BERTopic with the UMAP model
-topic_model = BERTopic(umap_model=umap_model, n_gram_range=(3, 10), language="english")
+# Instantiate BERTopic
+topic_model = BERTopic(n_neighbors=15, 
+                       n_components=5, 
+                       min_dist=0.0, 
+                       metric='cosine', n_gram_range=(3, 10), language="english")
 
 # Fit the model
 topics, probabilities = topic_model.fit_transform(negative_reviews['Processed Review Text'])
