@@ -286,13 +286,6 @@ for topic_number in set(topics):
     # Store the sampled reviews in the dictionary
     reviews_by_topic[topic_number] = sampled_reviews['Review'].tolist()
 
-# Display the reviews for each topic
-for topic, reviews in reviews_by_topic.items():
-    print(f"Topic {topic}:")
-    for review in reviews:
-        print(f"- {review}")
-    print("\n")
-
 topic_names = {
     0:"Food, Drinks, & General",
     1:"Food, Drinks, & General",
