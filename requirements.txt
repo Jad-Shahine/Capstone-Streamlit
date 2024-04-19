@@ -1,2 +1,15 @@
 beautifulsoup4==4.12.3
 selenium==4.19.0
+numpy
+pandas
+seaborn
+matplotlib
+nltk
+pickle
+gensim
+scikit-learn
+xgboost
+transformers
+bertopic
+umap-learn
+torch
