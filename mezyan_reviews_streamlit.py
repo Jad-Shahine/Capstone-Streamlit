@@ -28,7 +28,6 @@ import random
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
-from wordcloud import WordCloud
 from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.pipeline import Pipeline, make_pipeline
