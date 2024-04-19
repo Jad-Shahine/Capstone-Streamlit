@@ -257,10 +257,7 @@ selected_columns = ['Review Name', 'Review Text', 'Processed Review Text', 'Sent
 negative_reviews = negative_reviews[selected_columns]
 
 # Instantiate BERTopic
-topic_model = BERTopic(n_neighbors=15, 
-                       n_components=5, 
-                       min_dist=0.0, 
-                       metric='cosine', n_gram_range=(3, 10), language="english")
+topic_model = BERTopic(n_gram_range=(3, 10), language="english")
 
 # Fit the model
 topics, probabilities = topic_model.fit_transform(negative_reviews['Processed Review Text'])
