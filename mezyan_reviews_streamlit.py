@@ -7,6 +7,65 @@ Original file is located at
     https://colab.research.google.com/drive/1C0T0iFhZco0fahQdb4yDmVEl8sCxXT7i
 """
 
+# Ignore all warnings
+import warnings
+warnings.filterwarnings("ignore")
+
+
+# Import Libraries
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import re
+import nltk
+import contractions
+import torch
+import gensim.downloader as api
+import random
+
+# Import specific functions and classes
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+from wordcloud import WordCloud
+from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold
+from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+from sklearn.pipeline import Pipeline, make_pipeline
+from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.svm import SVC
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import (
+    precision_score, recall_score, f1_score, roc_auc_score, roc_curve, auc, accuracy_score,
+    classification_report, confusion_matrix, ConfusionMatrixDisplay
+)
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.model_selection import cross_val_score
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import GridSearchCV, StratifiedKFold
+from sklearn.tree import DecisionTreeClassifier
+from gensim.models import Word2Vec
+from sklearn.ensemble import RandomForestClassifier
+from xgboost import XGBClassifier
+from sklearn.ensemble import StackingClassifier
+from sklearn.ensemble import VotingClassifier
+from sklearn.ensemble import StackingClassifier
+from sklearn.model_selection import GridSearchCV
+
+# Download NLTK Resources
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('wordnet')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('maxent_ne_chunker')
+nltk.download('words')
+
+from transformers import AutoModelForSequenceClassification
+from transformers import TFAutoModelForSequenceClassification
+from transformers import AutoTokenizer, AutoConfig
+from scipy.special import softmax
+from bertopic import BERTopic
+from umap import UMAP
 MODEL = f"cardiffnlp/twitter-roberta-base-sentiment-latest"
 tokenizer = AutoTokenizer.from_pretrained(MODEL)
 config = AutoConfig.from_pretrained(MODEL)
@@ -14,15 +73,11 @@ config = AutoConfig.from_pretrained(MODEL)
 model = AutoModelForSequenceClassification.from_pretrained(MODEL)
 
 
-!pip install streamlit transformers torch
 import streamlit as st
 from sklearn.feature_extraction.text import CountVectorizer
 import io
 
-!pip install streamlit transformers torch
-import streamlit as st
-from sklearn.feature_extraction.text import CountVectorizer
-import io
+
 
 def preprocess_text_1(text):
 
@@ -200,8 +255,6 @@ sorted_reviews = negative_reviews.sort_values(by='Review Text', key=lambda x: x.
 top_10_reviews = sorted_reviews.head(5)
 
 """## Bert Topic Modeling"""
-
-!pip install bertopic
 
 negative_reviews=negative_reviews.dropna()
 
