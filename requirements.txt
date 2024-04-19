@@ -11,4 +11,5 @@ scipy==1.10.1
 seaborn
 streamlit
 torch
+packaging==21.3
 transformers==4.3.3
