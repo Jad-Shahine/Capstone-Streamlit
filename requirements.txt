@@ -11,5 +11,4 @@ seaborn
 streamlit
 torch
 transformers
-umap-learn
 
