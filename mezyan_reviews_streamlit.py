@@ -15,8 +15,6 @@ warnings.filterwarnings("ignore")
 # Import Libraries
 import numpy as np
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
 import re
 import nltk
 import contractions
@@ -32,7 +30,6 @@ from sklearn.model_selection import train_test_split, cross_val_score, Stratifie
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.pipeline import Pipeline, make_pipeline
 from sklearn.base import BaseEstimator, TransformerMixin
-from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import (
     precision_score, recall_score, f1_score, roc_auc_score, roc_curve, auc, accuracy_score,
@@ -45,7 +42,6 @@ from sklearn.model_selection import GridSearchCV, StratifiedKFold
 from sklearn.tree import DecisionTreeClassifier
 from gensim.models import Word2Vec
 from sklearn.ensemble import RandomForestClassifier
-from xgboost import XGBClassifier
 from sklearn.ensemble import StackingClassifier
 from sklearn.ensemble import VotingClassifier
 from sklearn.ensemble import StackingClassifier
