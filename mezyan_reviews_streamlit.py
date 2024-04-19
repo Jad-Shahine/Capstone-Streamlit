@@ -65,7 +65,7 @@ from transformers import TFAutoModelForSequenceClassification
 from transformers import AutoTokenizer, AutoConfig
 from scipy.special import softmax
 from bertopic import BERTopic
-import umap.umap_ as UMAP
+from umap import umap_ as UMAP
 MODEL = f"cardiffnlp/twitter-roberta-base-sentiment-latest"
 tokenizer = AutoTokenizer.from_pretrained(MODEL)
 config = AutoConfig.from_pretrained(MODEL)
@@ -263,7 +263,7 @@ selected_columns = ['Review Name', 'Review Text', 'Processed Review Text', 'Sent
 negative_reviews = negative_reviews[selected_columns]
 
 # Setting random_state in UMAP for reproducibility
-umap_model = UMAP(n_neighbors=15, n_components=5, min_dist=0.0, metric='cosine', random_state=42)
+umap_model = UMAP.UMAP(n_neighbors=15, n_components=5, min_dist=0.0, metric='cosine', random_state=42)
 
 # Instantiate BERTopic with the UMAP model
 topic_model = BERTopic(umap_model=umap_model, n_gram_range=(3, 10), language="english")
