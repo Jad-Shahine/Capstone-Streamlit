@@ -397,21 +397,24 @@ def page3():
     with tab1:
         sentiment_type = st.radio("Choose Sentiment Type:", ('Positive', 'Negative'))
         sentiment_value = 1 if sentiment_type == 'Positive' else 0
-        
-        num_reviews = st.slider("Choose the number of Reviews to View", min_value=0, max_value=len(sorted_reviews[sorted_reviews['Sentiment'] == sentiment_value]), value=5, step=1)
-        
-        if st.button('Filter'):
-            # Filter the DataFrame based on the user's choice
+        options = [5, 10]
+        selected_number = st.selectbox("Choose a preset number of Reviews to View or set your own below:", options)
+        custom_number = st.number_input("Set a custom number of Reviews to View:", min_value=0, value=5, step=1)
+        if st.button('Set Custom Number'):
+            num_reviews = custom_number
+        else:
+            num_reviews = selected_number
+        if st.button('Filter Reviews'):
+            max_reviews = len(sorted_reviews[sorted_reviews['Sentiment'] == sentiment_value])
+            num_reviews = min(num_reviews, max_reviews)
             filtered_reviews = sorted_reviews[sorted_reviews['Sentiment'] == sentiment_value][:num_reviews]
-        
-            # Display the reviews
             if not filtered_reviews.empty:
                 st.write(f"Showing top {num_reviews} {sentiment_type.lower()} reviews:")
                 for index, row in filtered_reviews.iterrows():
                     st.write(f"Review {index + 1}: {row['Review Text']}")
             else:
-                st.write("No reviews to display.")
-
+                st.write("No reviews to display.")        
+        
 
     with tab2:
         st.header("Analyze a Single Review")
