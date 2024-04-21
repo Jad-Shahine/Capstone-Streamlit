@@ -438,7 +438,7 @@ def page3():
             if not topic_reviews.empty:
                 st.write(f"Showing top {num_reviews} reviews for {selected_topic}:")
                 for index, row in topic_reviews.iterrows():
-                    st.write(f"Review {index + 1}: {row['Review Text']}")
+                    st.write(f"Review {index + 1}: {row['Review']}")
             else:
                 st.write("No reviews available for the selected topic.")
 
