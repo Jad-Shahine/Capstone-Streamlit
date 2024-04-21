@@ -432,7 +432,7 @@ def page3():
         # Retrieve button
         if st.button('Retrieve Reviews'):
             # Filter the DataFrame based on the selected topic
-            topic_reviews = review_topics_df[review_topics_df['Topic'] == selected_topic][:num_reviews]
+            topic_reviews = review_topics_df[review_topics_df['Topic Name'] == selected_topic][:num_reviews]
         
             # Display the reviews
             if not topic_reviews.empty:
