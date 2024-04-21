@@ -360,7 +360,7 @@ def page2():
     st.header("Automatic Web Scraper from Google Maps Review Page")  # Heading for Page 2
     st.write("")
     url = st.text_input('Enter the Google Maps URL:')
-    duration = st.number_input('Enter duration for scraping (in seconds):', min_value=5, max_value=600, value=30)
+    duration = st.number_input('Enter duration for scraping (in seconds):', min_value=5, max_value=5000, value=30)
     st.markdown("""
     <style>
     .small-font {
@@ -427,7 +427,7 @@ def page3():
         selected_topic = st.selectbox("Choose a Topic:", topic_list)
         
         # Allow users to input the number of reviews to view
-        num_reviews = st.number_input("Set the number of Reviews to View for the selected topic:", min_value=1, value=3, step=1)
+        num_reviews = st.number_input("Set the number of Reviews to View for the selected topic:", min_value=1, value=2, step=1)
         
         # Retrieve button
         if st.button('Retrieve Reviews'):
