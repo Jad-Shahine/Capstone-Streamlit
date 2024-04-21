@@ -16,6 +16,14 @@ nltk.download('wordnet')
 from bertopic import BERTopic
 from umap import UMAP
 import streamlit as st
+from selenium import webdriver
+from bs4 import BeautifulSoup
+import csv
+import time
+
+
+
+
 
 all_reviews = pd.read_csv('all_reviews.csv', encoding='latin1')
 stop_wordss = set(stopwords.words('english'))
@@ -268,6 +276,38 @@ topic_names = {
     -1:"General"
 }
 
+
+# Function to scrape reviews
+def scrape_google_maps_reviews(url, duration):
+    # Setup Chrome options
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument("--headless")  # Run in headless mode
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    driver = webdriver.Chrome(options=chrome_options)
+
+    driver.get(url)
+    time.sleep(duration)  # Simplified pause for demo purposes
+
+    # Simplified scraping logic for example
+    response = BeautifulSoup(driver.page_source, 'html.parser')
+    reviews = [{'Review Name': 'Sample Name', 'Review Rating': '5 stars', 'Review Text': 'Great place!'}]  # Dummy data
+
+    driver.quit()
+    return reviews
+
+# Save reviews to a CSV file and return path
+def save_reviews(reviews):
+    reviews_scraped = 'reviews.csv'
+    with open(reviews_scraped, 'w', newline='', encoding='utf-8') as file:
+        writer = csv.DictWriter(file, fieldnames=['Review Name', 'Review Rating', 'Review Text'])
+        writer.writeheader()
+        for review in reviews:
+            writer.writerow(review)
+    return reviews_scraped
+
+
+
 # Function to create tabs for Page 1
 def page1():
     st.header("Mezyan")  # Heading for Page 1
@@ -280,7 +320,7 @@ def page1():
 # Function to create tabs for Page 2
 def page2():
     st.header("Automatic Web Scraper from Google Maps Review Page")  # Heading for Page 2
-    tab1 = st.tabs(["Tab 1"])
+    tab1 = st.tabs(["Tab 1"])[0]
     with tab1:
         st.write("Content of Page 2, Tab 1")
     
