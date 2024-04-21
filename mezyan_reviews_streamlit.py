@@ -242,23 +242,24 @@ def predict_sentiment(text):
 
 def process_csv(file):
     try:
-        df = pd.read_csv(file, encoding='latin1')
+        df = pd.read_csv(file, encoding='latin 1')
         df = df.dropna()
+        st.write("CSV read and NaN values dropped.")
 
-        # Validate required columns
         if 'Reviewer Name' not in df.columns or 'Review Text' not in df.columns:
             return None, "CSV file must contain exactly two columns named 'Reviewer Name' and 'Review Text'."
 
-        # Sentiment analysis
         df['Sentiment'] = df['Review Text'].apply(predict_sentiment)
-        df['Processed Review Text'] = df['Review Text'].apply(preprocess_text_1)
+        st.write("Sentiment analysis completed.")
 
-        # Topic modeling
+        df['Processed Review Text'] = df['Review Text'].apply(preprocess_text_1)
+        st.write("Text preprocessing completed.")
+
         processed_texts = df['Processed Review Text'].tolist()
         topics, _ = topic_model.transform(processed_texts)
         df['Topic'] = [topic_names.get(topic, "Unknown Topic") for topic in topics]
+        st.write("Topic modeling completed.")
 
-        # Clean up
         df = df.drop('Processed Review Text', axis=1)
         return df, None
     except Exception as e:
