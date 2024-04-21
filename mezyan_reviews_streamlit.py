@@ -360,6 +360,13 @@ def page2():
     st.write("")
     url = st.text_input('Enter the Google Maps URL:')
     duration = st.number_input('Enter duration for scraping (in seconds):', min_value=5, max_value=600, value=30)
+    st.markdown("""
+    <style>
+    .small-font {
+        font-size:12px;
+    }
+    </style>
+    """, unsafe_allow_html=True)
     st.markdown('<p class="small-font">Duration is based on the internet speed available<br>For a decent internet service a good duation would be equal to the number of reviews x 0.75</p>', unsafe_allow_html=True)        
     st.write("")
 
