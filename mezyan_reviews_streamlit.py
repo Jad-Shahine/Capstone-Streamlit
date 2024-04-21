@@ -320,9 +320,7 @@ def page1():
 # Function to create tabs for Page 2
 def page2():
     st.header("Automatic Web Scraper from Google Maps Review Page")  # Heading for Page 2
-    tab1 = st.tabs(["Tab 1"])[0]
-    with tab1:
-        st.write("Content of Page 2, Tab 1")
+    st.write("Content of Page 2, Tab 1")
     
         
 
