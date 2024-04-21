@@ -17,7 +17,7 @@ from bertopic import BERTopic
 from umap import UMAP
 import streamlit as st
 
-all_reviews = pd.read_csv('/content/drive/MyDrive/Capstone/all_reviews.csv', encoding='latin1')
+all_reviews = pd.read_csv(all_reviews.csv', encoding='latin1')
 
 def preprocess_text_1(text):
 
