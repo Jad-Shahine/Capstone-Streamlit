@@ -395,30 +395,21 @@ def page3():
     st.header("Customer Feedback")  # Heading for Page 3
     tab1, tab2, tab3 = st.tabs(["Review Analysis","New Review", "New Bulk Reviews via CSV"])
     with tab1:
+        # User selects sentiment type
         sentiment_type = st.radio("Choose Sentiment Type:", ('Positive', 'Negative'))
         sentiment_value = 1 if sentiment_type == 'Positive' else 0
         
-        # Provide selection for number of reviews
-        options = [2, 5, 10]
-        selected_number = st.selectbox("Choose a preset number of Reviews to View or set your own below:", options)
-        
-        # Allow users to input a custom number
-        custom_number = st.number_input("Set a custom number of Reviews to View:", min_value=0, value=5, step=1)
-        
-        # Determine which number to use
-        if st.button('Set Custom Number'):
-            num_reviews = custom_number
-        else:
-            num_reviews = selected_number
+        # Allow users to input a custom number of reviews to view
+        num_reviews = st.number_input("Set the number of Reviews to View:", min_value=1, value=5, step=1)
         
         # Filter button
         if st.button('Filter Reviews'):
             # Ensure the DataFrame filtering does not exceed available reviews
-            max_reviews = len(sorted_reviews[sorted_reviews['Sentiment'] == sentiment_value])
+            max_reviews = len(all_reviews[sorted_reviews['Sentiment'] == sentiment_value])
             num_reviews = min(num_reviews, max_reviews)
         
             # Filter the DataFrame based on the user's choice
-            filtered_reviews = sorted_reviews[sorted_reviews['Sentiment'] == sentiment_value][:num_reviews]
+            filtered_reviews = all_reviews[all_reviews['Sentiment'] == sentiment_value][:num_reviews]
         
             # Display the reviews
             if not filtered_reviews.empty:
@@ -426,7 +417,7 @@ def page3():
                 for index, row in filtered_reviews.iterrows():
                     st.write(f"Review {index + 1}: {row['Review Text']}")
             else:
-                st.write("No reviews to display.")        
+                st.write("No reviews to display.")     
         
 
     with tab2:
