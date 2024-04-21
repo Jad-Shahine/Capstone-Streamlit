@@ -209,7 +209,7 @@ topic_names = {
     9:"Physical Setting & Hygiene",
     10:"Physical Setting & Hygiene",
     11:"Drinks",
-    -1:"Food Quality & Price"
+    -1:"General"
 }
 
 # Add these names to your DataFrame
