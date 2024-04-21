@@ -217,7 +217,7 @@ topic_names = {
     9:"Physical Setting & Hygiene",
     10:"Physical Setting & Hygiene",
     11:"Drinks",
-    -1:"General"
+    -1:"Food, Drinks, & General"
 }
 
 # Add these names to your DataFrame
@@ -273,7 +273,7 @@ topic_names = {
     9:"Physical Setting & Hygiene",
     10:"Physical Setting & Hygiene",
     11:"Drinks",
-    -1:"General"
+    -1:"Food, Drinks, & General"
 }
 
 
