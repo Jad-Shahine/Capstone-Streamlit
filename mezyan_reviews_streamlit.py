@@ -215,7 +215,7 @@ def align_sentiment(predicted_sentiment):
     else:
         raise ValueError("Invalid sentiment value")
 
-all_reviews = pd.read_csv('/content/drive/MyDrive/Capstone/all_reviews.csv', encoding='latin1')
+all_reviews = pd.read_csv('all_reviews.csv', encoding='latin1')
 
 # Filter only the negative reviews
 negative_reviews = all_reviews[all_reviews['Sentiment'] == 0]
