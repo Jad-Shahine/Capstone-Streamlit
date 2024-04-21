@@ -16,10 +16,10 @@ nltk.download('wordnet')
 from bertopic import BERTopic
 from umap import UMAP
 import streamlit as st
-from selenium import webdriver
-from bs4 import BeautifulSoup
-import csv
-import time
+#from selenium import webdriver
+#from bs4 import BeautifulSoup
+#import csv
+#import time
 
 
 
@@ -278,68 +278,68 @@ topic_names = {
 
 
 
-def scrape_google_maps_reviews(url, duration):
-    # Setup Chrome options
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument("--lang=en-GB")
+# def scrape_google_maps_reviews(url, duration):
+#     # Setup Chrome options
+#     chrome_options = webdriver.ChromeOptions()
+#     chrome_options.add_argument("--lang=en-GB")
 
-    try:
-        driver = webdriver.Chrome(options=chrome_options)
-    except SessionNotCreatedException:
-        print("Error: Chrome driver (v114) and Chrome version installed on this computer are different. Please make sure that Chrome version is v114.")
-        return
+#     try:
+#         driver = webdriver.Chrome(options=chrome_options)
+#     except SessionNotCreatedException:
+#         print("Error: Chrome driver (v114) and Chrome version installed on this computer are different. Please make sure that Chrome version is v114.")
+#         return
 
-    # Open the URL
-    driver.get(url)
+#     # Open the URL
+#     driver.get(url)
 
-    # Wait for the page elements to load
-    wait = WebDriverWait(driver, 10)
-    try:
-        menu_bt = wait.until(EC.element_to_be_clickable((By.XPATH, '//button[@data-value=\'Sort\']')))
-        menu_bt.click()
-    except Exception as e:
-        print("Error finding or clicking 'Sort' button:", e)
-        driver.quit()
-        return
+#     # Wait for the page elements to load
+#     wait = WebDriverWait(driver, 10)
+#     try:
+#         menu_bt = wait.until(EC.element_to_be_clickable((By.XPATH, '//button[@data-value=\'Sort\']')))
+#         menu_bt.click()
+#     except Exception as e:
+#         print("Error finding or clicking 'Sort' button:", e)
+#         driver.quit()
+#         return
 
-    time.sleep(5)
+#     time.sleep(5)
 
-    # Calculate the number of presses needed
-    interval = 1    # interval in seconds between each press
-    num_presses = duration // interval
+#     # Calculate the number of presses needed
+#     interval = 1    # interval in seconds between each press
+#     num_presses = duration // interval
 
-    # Perform the sequence of pressing End key
-    for _ in range(num_presses):
-        action = ActionChains(driver)
-        action.send_keys(Keys.END).perform()
-        time.sleep(interval)
+#     # Perform the sequence of pressing End key
+#     for _ in range(num_presses):
+#         action = ActionChains(driver)
+#         action.send_keys(Keys.END).perform()
+#         time.sleep(interval)
 
-    time.sleep(5)  # Wait an additional 5 seconds after the loop
+#     time.sleep(5)  # Wait an additional 5 seconds after the loop
 
-    # Find the 'More' buttons and click them
-    more_buttons = driver.find_elements(By.XPATH, '//button[text()="More"]')
-    for button in more_buttons:
-        try:
-            button.click()
-            time.sleep(2)  # Small delay to allow content to load
-        except Exception as e:
-            print("Error clicking 'More' button:", e)
+#     # Find the 'More' buttons and click them
+#     more_buttons = driver.find_elements(By.XPATH, '//button[text()="More"]')
+#     for button in more_buttons:
+#         try:
+#             button.click()
+#             time.sleep(2)  # Small delay to allow content to load
+#         except Exception as e:
+#             print("Error clicking 'More' button:", e)
 
-    # Process and store reviews
-    response = BeautifulSoup(driver.page_source, 'html.parser')
-    review_elements = response.find_all('div', class_='jftiEf')
-    reviews = get_review_summary(review_elements)
+#     # Process and store reviews
+#     response = BeautifulSoup(driver.page_source, 'html.parser')
+#     review_elements = response.find_all('div', class_='jftiEf')
+#     reviews = get_review_summary(review_elements)
 
-    # Save reviews to a CSV file
-    reviews_scraped = 'reviews.csv'
-    with open(reviews_scraped, 'w', newline='', encoding='utf-8') as file:
-        writer = csv.DictWriter(file, fieldnames=['Review Name', 'Review Rating', 'Review Text'])
-        writer.writeheader()
-        for review in reviews:
-            writer.writerow(review)
+#     # Save reviews to a CSV file
+#     reviews_scraped = 'reviews.csv'
+#     with open(reviews_scraped, 'w', newline='', encoding='utf-8') as file:
+#         writer = csv.DictWriter(file, fieldnames=['Review Name', 'Review Rating', 'Review Text'])
+#         writer.writeheader()
+#         for review in reviews:
+#             writer.writerow(review)
 
-    # Quit
-    driver.quit()
+#     # Quit
+#     driver.quit()
 
 
 
@@ -360,21 +360,23 @@ def page2():
     st.write("")
     url = st.text_input('Enter the Google Maps URL:')
     duration = st.number_input('Enter duration for scraping (in seconds):', min_value=5, max_value=600, value=30)
+
+    st.write("Due to the limited resources available on Streamlit, this service has been disabled")
     
-    if st.button('Scrape Reviews'):
-        if url:
-            reviews = scrape_google_maps_reviews(url, duration)
-            file_path = save_reviews(reviews)
-            st.success('Scraping done! Download your file below.')
-            with open(file_path, "rb") as file:
-                btn = st.download_button(
-                    label="Download CSV",
-                    data=file,
-                    file_name="reviews.csv",
-                    mime="text/csv",
-                )
-        else:
-            st.error('Please enter a valid URL.')    
+    # if st.button('Scrape Reviews'):
+    #     if url:
+    #         reviews = scrape_google_maps_reviews(url, duration)
+    #         file_path = save_reviews(reviews)
+    #         st.success('Scraping done! Download your file below.')
+    #         with open(file_path, "rb") as file:
+    #             btn = st.download_button(
+    #                 label="Download CSV",
+    #                 data=file,
+    #                 file_name="reviews.csv",
+    #                 mime="text/csv",
+    #             )
+    #     else:
+    #         st.error('Please enter a valid URL.')    
         
 
 # Function to create tabs for Page 3
