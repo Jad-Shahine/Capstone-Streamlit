@@ -320,8 +320,24 @@ def page1():
 # Function to create tabs for Page 2
 def page2():
     st.header("Automatic Web Scraper from Google Maps Review Page")  # Heading for Page 2
-    st.write("Content of Page 2, Tab 1")
+    st.write("")
+    url = st.text_input('Enter the Google Maps URL:')
+    duration = st.number_input('Enter duration for scraping (in seconds):', min_value=5, max_value=600, value=30)
     
+    if st.button('Scrape Reviews'):
+        if url:
+            reviews = scrape_google_maps_reviews(url, duration)
+            file_path = save_reviews(reviews)
+            st.success('Scraping done! Download your file below.')
+            with open(file_path, "rb") as file:
+                btn = st.download_button(
+                    label="Download CSV",
+                    data=file,
+                    file_name="reviews.csv",
+                    mime="text/csv",
+                )
+        else:
+            st.error('Please enter a valid URL.')    
         
 
 # Function to create tabs for Page 3
@@ -334,6 +350,16 @@ def page3():
         st.header("Analyze a Single Review")
         name = st.text_input("Name")
         review = st.text_area("Review")
+        st.markdown("""
+        <style>
+        .small-font {
+            font-size:12px;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+        
+        # Using <br> tag to create a new line in HTML
+        st.markdown('<p class="small-font">I loved the mezza, very good food.<br>Bad. The food lacked flavor, drinks are watered down.</p>', unsafe_allow_html=True)        
         if st.button("Analyze Sentiment"):
             predicted_sentiment, topic_name = analyze_text(review)
             sentiment_label = 'Positive' if predicted_sentiment == 1 else 'Negative'
