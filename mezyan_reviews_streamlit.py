@@ -242,7 +242,7 @@ def predict_sentiment(text):
 
 def process_csv(file):
     try:
-        df = pd.read_csv(file)
+        df = pd.read_csv(file, encoding='latin1')
         df = df.dropna()
         if 'Reviewer Name' not in df.columns or 'Review Text' not in df.columns:
             return None, "CSV file must contain exactly two columns named 'Reviewer Name' and 'Review Text'."
