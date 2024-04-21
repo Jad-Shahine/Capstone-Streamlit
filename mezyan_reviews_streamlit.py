@@ -299,10 +299,12 @@ with tab2:
     st.markdown("Please upload a CSV file with two columns: 'Reviewer Name' and 'Review Text'")
     uploaded_file = st.file_uploader("Choose a CSV file", type=["csv"])
     if uploaded_file is not None:
+        st.write("File uploaded successfully.")
         data, error = process_csv(uploaded_file)
         if error:
             st.error(f"Error: {error}")
         elif data is not None:
+            st.write("CSV processing completed without any error.")
             st.write("Analysis Complete. Here are the results:")
             st.dataframe(data[['Reviewer Name', 'Review Text', 'Sentiment', 'Topic']])
             # Convert DataFrame to CSV for download
