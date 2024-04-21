@@ -282,7 +282,7 @@ with tab1:
     if st.button("Analyze Sentiment"):
         predicted_sentiment, topic_name = analyze_text(review)
         sentiment_label = 'Positive' if predicted_sentiment == 1 else 'Negative'
-        st.write(f"{name} just left a {sentiment_label} review about {topic_name}\n{review}")
+        st.write(f"{name} just left a {sentiment_label} review ({topic_name})")
 
 
 with tab2:
