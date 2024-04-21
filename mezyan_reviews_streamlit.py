@@ -408,7 +408,7 @@ def page3():
         """, unsafe_allow_html=True)
         
         # Using <br> tag to create a new line in HTML
-        st.markdown('<p class="small-font">I loved the mezza, very good food.<br>Bad. The food lacked flavor, drinks are watered down.</p>', unsafe_allow_html=True)        
+        st.markdown('<p class="small-font">Example:<br>I loved the mezza, very good food.<br>Bad. The food lacked flavor, drinks are watered down.</p>', unsafe_allow_html=True)        
         if st.button("Analyze Sentiment"):
             predicted_sentiment, topic_name = analyze_text(review)
             sentiment_label = 'Positive' if predicted_sentiment == 1 else 'Negative'
