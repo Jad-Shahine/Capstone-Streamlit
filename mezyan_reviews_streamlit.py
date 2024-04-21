@@ -399,7 +399,7 @@ def page3():
         sentiment_value = 1 if sentiment_type == 'Positive' else 0
         
         # Provide selection for number of reviews
-        options = [5, 10]
+        options = [2, 5, 10]
         selected_number = st.selectbox("Choose a preset number of Reviews to View or set your own below:", options)
         
         # Allow users to input a custom number
