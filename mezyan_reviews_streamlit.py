@@ -393,7 +393,7 @@ def page2():
 # Function to create tabs for Page 3
 def page3():
     st.header("Customer Feedback")  # Heading for Page 3
-    tab1, tab2, tab3 = st.tabs(["Review Analysis","New Review", "New Bulk Reviews via CSV"])
+    tab1, tab2, tab3, tab4 = st.tabs(["Review Sentiment", "Negative Reviews by Topic", "New Review", "New Bulk Reviews via CSV"])
     with tab1:
         # User selects sentiment type
         sentiment_type = st.radio("Choose Sentiment Type:", ('Positive', 'Negative'))
@@ -419,8 +419,36 @@ def page3():
             else:
                 st.write("No reviews to display.")     
         
-
     with tab2:
+        # List of unique topics
+        topic_list = review_topics_df['Topic Name'].unique()
+        
+        # User selects a topic
+        selected_topic = st.selectbox("Choose a Topic:", topic_list)
+        
+        # Allow users to input the number of reviews to view
+        num_reviews = st.number_input("Set the number of Reviews to View for the selected topic:", min_value=1, value=5, step=1)
+        
+        # Retrieve button
+        if st.button('Retrieve Reviews'):
+            # Filter the DataFrame based on the selected topic
+            topic_reviews = review_topics_df[review_topics_df['Topic'] == selected_topic][:num_reviews]
+        
+            # Display the reviews
+            if not topic_reviews.empty:
+                st.write(f"Showing top {num_reviews} reviews for {selected_topic}:")
+                for index, row in topic_reviews.iterrows():
+                    st.write(f"Review {index + 1}: {row['Review Text']}")
+            else:
+                st.write("No reviews available for the selected topic.")
+
+
+
+
+
+
+        
+    with tab3:
         st.header("Analyze a Single Review")
         name = st.text_input("Name")
         review = st.text_area("Review")
@@ -439,7 +467,7 @@ def page3():
             sentiment_label = 'Positive' if predicted_sentiment == 1 else 'Negative'
             st.write(f"{name} just left a {sentiment_label} review (Topic: {topic_name})")
 
-    with tab3:
+    with tab4:
         st.header("Upload CSV for Bulk Analysis")
         st.markdown("Please upload a CSV file with two columns: 'Reviewer Name' and 'Review Text'")
         uploaded_file = st.file_uploader("Choose a CSV file", type=["csv"])
