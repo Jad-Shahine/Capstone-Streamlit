@@ -151,9 +151,6 @@ RF_pipeline.fit(X, y)
 
 # Filter only the negative reviews
 negative_reviews = all_reviews[all_reviews['Sentiment'] == 0]
-negative_reviews.shape
-
-"""# Bert Topic Modeling"""
 
 negative_reviews['Processed Review Text'] = negative_reviews['Review Text'].apply(preprocess_text_1)
 selected_columns = ['Review Name', 'Review Text', 'Processed Review Text', 'Sentiment']
@@ -218,8 +215,6 @@ topic_names = {
 # Add these names to your DataFrame
 review_topics_df['Topic Name'] = review_topics_df['Topic'].map(topic_names)
 # review_topics_df
-
-"""# Streamlit App"""
 
 # pd.set_option('display.max_colwidth', None)
 
