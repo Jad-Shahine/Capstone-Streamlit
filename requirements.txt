@@ -7,6 +7,3 @@ contractions
 bertopic
 umap-learn
 regex==2022.3.15
-selenium
-beautifulsoup4
-webdriver-manager
