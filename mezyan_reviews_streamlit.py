@@ -259,16 +259,16 @@ topic_names = {
     0:"Food, Drinks, & General",
     1:"Food, Drinks, & General",
     2:"Food, Drinks, & General",
-    3:"Ingredients Taste & Quality",
+    3:"Service Quality & Staff",
     4:"Service Quality & Staff",
     5:"Service Quality & Staff",
-    6:"Service Quality & Staff",
-    7:"Ambiance & Music",
-    8:"Hygiene",
-    9:"Physical Setting",
-    10:"Food, Drinks, & General",
-    11:"Food, Drinks, & General",
-    -1:"Food, Drinks, & General"
+    6:"Food, Drinks, & General",
+    7:"Food, Drinks, & General",
+    8:"Ambiance & Music",
+    9:"Physical Setting & Hygiene",
+    10:"Physical Setting & Hygiene",
+    11:"Drinks",
+    -1:"Food Quality & Price"
 }
 
 st.title('Sentiment Analysis App')
