@@ -279,7 +279,16 @@ def page1():
 
 # Function to create tabs for Page 2
 def page2():
-    st.header("Customer Feedback")  # Heading for Page 2
+    st.header("Automatic Web Scraper from Google Maps Review Page")  # Heading for Page 2
+    tab1 = st.tabs(["Tab 1"])
+    with tab1:
+        st.write("Content of Page 2, Tab 1")
+    
+        
+
+# Function to create tabs for Page 3
+def page3():
+    st.header("Customer Feedback")  # Heading for Page 3
     tab1, tab2, tab3 = st.tabs(["Review Analysis","New Review", "New Bulk Reviews via CSV"])
     with tab1:
         st.write("Content of Page 2, Tab 1")
@@ -287,15 +296,6 @@ def page2():
         st.header("Analyze a Single Review")
         name = st.text_input("Name")
         review = st.text_area("Review")
-        st.markdown("""
-        <style>
-        .small-font {
-            font-size:12px;
-        }
-        </style>
-        """, unsafe_allow_html=True)
-        st.markdown('<p class="small-font">Example:<br>I loved the mezza, very good food.<br>Bad. The food lacked flavor, drinks are watered down.</p>', unsafe_allow_html=True)
-
         if st.button("Analyze Sentiment"):
             predicted_sentiment, topic_name = analyze_text(review)
             sentiment_label = 'Positive' if predicted_sentiment == 1 else 'Negative'
@@ -321,28 +321,30 @@ def page2():
                     mime='text/csv',
                 )
 
-# Function to create tabs for Page 3
-def page3():
-    st.header("Restocking Chicken Breast")  # Heading for Page 3
+# Function to create tabs for Page 4
+def page4():
+    st.header("Restocking Chicken Breast")  # Heading for Page 4
     tab1, tab2 = st.tabs(["Tab 1", "Tab 2"])
     with tab1:
-        st.write("Content of Page 3, Tab 1")
+        st.write("Content of Page 4, Tab 1")
     with tab2:
-        st.write("Content of Page 3, Tab 2")
+        st.write("Content of Page 4, Tab 2")
 
 # Main function to manage navigation and universal app title
 def main():
     st.title("Mezyan - Analytical Approach")  # Universal title for the app
 
     st.sidebar.title("Navigation")
-    page = st.sidebar.radio("Select a Page", ["Mezyan", "Customer Feedback", "Restocking Chicken Breast"])
+    page = st.sidebar.radio("Select a Page", ["Mezyan", "Web Scraper", "Customer Feedback", "Restocking Chicken Breast"])
 
     if page == "Mezyan":
         page1()
-    elif page == "Customer Feedback":
+    elif page == "Web Scraper":
         page2()
-    elif page == "Restocking Chicken Breast":
+    elif page == "Customer Feedback":
         page3()
+    elif page == "Restocking Chicken Breast":
+        page4()
 
 if __name__ == "__main__":
     main()
