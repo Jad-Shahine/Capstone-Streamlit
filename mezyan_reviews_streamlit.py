@@ -395,22 +395,22 @@ def page3():
     st.header("Customer Feedback")  # Heading for Page 3
     tab1, tab2, tab3 = st.tabs(["Review Analysis","New Review", "New Bulk Reviews via CSV"])
     with tab1:
-    sentiment_type = st.radio("Choose Sentiment Type:", ('Positive', 'Negative'))
-    sentiment_value = 1 if sentiment_type == 'Positive' else 0
-    
-    num_reviews = st.slider("Choose the number of Reviews to View", min_value=0, max_value=len(sorted_reviews[sorted_reviews['Sentiment'] == sentiment_value]), value=5, step=1)
-    
-    if st.button('Filter'):
-        # Filter the DataFrame based on the user's choice
-        filtered_reviews = sorted_reviews[sorted_reviews['Sentiment'] == sentiment_value][:num_reviews]
-    
-        # Display the reviews
-        if not filtered_reviews.empty:
-            st.write(f"Showing top {num_reviews} {sentiment_type.lower()} reviews:")
-            for index, row in filtered_reviews.iterrows():
-                st.write(f"Review {index + 1}: {row['Review Text']}")
-        else:
-            st.write("No reviews to display.")
+        sentiment_type = st.radio("Choose Sentiment Type:", ('Positive', 'Negative'))
+        sentiment_value = 1 if sentiment_type == 'Positive' else 0
+        
+        num_reviews = st.slider("Choose the number of Reviews to View", min_value=0, max_value=len(sorted_reviews[sorted_reviews['Sentiment'] == sentiment_value]), value=5, step=1)
+        
+        if st.button('Filter'):
+            # Filter the DataFrame based on the user's choice
+            filtered_reviews = sorted_reviews[sorted_reviews['Sentiment'] == sentiment_value][:num_reviews]
+        
+            # Display the reviews
+            if not filtered_reviews.empty:
+                st.write(f"Showing top {num_reviews} {sentiment_type.lower()} reviews:")
+                for index, row in filtered_reviews.iterrows():
+                    st.write(f"Review {index + 1}: {row['Review Text']}")
+            else:
+                st.write("No reviews to display.")
 
 
     with tab2:
