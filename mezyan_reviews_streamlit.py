@@ -231,7 +231,7 @@ def analyze_text(text):
 
     # Process the text for topic modeling
     processed_text_series = pd.Series([processed_text])
-    topics, _ = topic_model.fit_transform(processed_text_series)
+    topics, _ = topic_model.transform(processed_text_series)
     topic_name = topic_names.get(topics[0], "Unknown Topic")
     
     return predicted_sentiment, topic_name
