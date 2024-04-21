@@ -242,18 +242,11 @@ def process_csv(file):
         df = df.dropna()
         if 'Reviewer Name' not in df.columns or 'Review Text' not in df.columns:
             return None, "CSV file must contain exactly two columns named 'Reviewer Name' and 'Review Text'."
-
         df['Sentiment'] = RF_pipeline.predict(df['Review Text'])
-        st.write("Sentiment analysis completed.")
-
         df['Processed Review Text'] = df['Review Text'].apply(preprocess_text_1)
-        st.write("Text preprocessing completed.")
-
         processed_texts = df['Processed Review Text'].tolist()
         topics, _ = topic_model.transform(processed_texts)
         df['Topic'] = [topic_names.get(topic, "Unknown Topic") for topic in topics]
-        st.write("Topic modeling completed.")
-
         df = df.drop('Processed Review Text', axis=1)
         return df, None
     except Exception as e:
@@ -275,38 +268,72 @@ topic_names = {
     -1:"General"
 }
 
-st.title('Sentiment Analysis App')
+# Function to create tabs for Page 1
+def page1():
+    st.header("Mezyan")  # Heading for Page 1
+    tab1, tab2 = st.tabs(["Tab 1", "Tab 2"])
+    with tab1:
+        st.write("Content of Page 1, Tab 1")
+    with tab2:
+        st.write("Content of Page 1, Tab 2")
 
-tab1, tab2 = st.tabs(["Single Review", "Bulk Reviews via CSV"])
+# Function to create tabs for Page 2
+def page2():
+    st.header("Customer Feedback")  # Heading for Page 2
+    tab1, tab2, tab3 = st.tabs(["Review Analysis","New Review", "New Bulk Reviews via CSV"])
+    with tab1:
+        st.write("Content of Page 2, Tab 1")
+    with tab2:
+        st.header("Analyze a Single Review")
+        name = st.text_input("Name")
+        review = st.text_area("Review")
+        if st.button("Analyze Sentiment"):
+            predicted_sentiment, topic_name = analyze_text(review)
+            sentiment_label = 'Positive' if predicted_sentiment == 1 else 'Negative'
+            st.write(f"{name} just left a {sentiment_label} review (Topic: {topic_name})")
 
-with tab1:
-    st.header("Analyze a Single Review")
-    name = st.text_input("Name")
-    review = st.text_area("Review")
-    if st.button("Analyze Sentiment"):
-        predicted_sentiment, topic_name = analyze_text(review)
-        sentiment_label = 'Positive' if predicted_sentiment == 1 else 'Negative'
-        st.write(f"{name} just left a {sentiment_label} review (Topic: {topic_name})")
+    with tab3:
+        st.header("Upload CSV for Bulk Analysis")
+        st.markdown("Please upload a CSV file with two columns: 'Reviewer Name' and 'Review Text'")
+        uploaded_file = st.file_uploader("Choose a CSV file", type=["csv"])
+        if uploaded_file is not None:
+            data, error = process_csv(uploaded_file)
+            if error:
+                st.error(f"Error: {error}")
+            elif data is not None:
+                st.write("Analysis Complete. Here are the results:")
+                st.dataframe(data[['Reviewer Name', 'Review Text', 'Sentiment', 'Topic']])
+                # Convert DataFrame to CSV for download
+                csv = data.to_csv(index=False).encode('utf-8')
+                st.download_button(
+                    label="Download processed CSV",
+                    data=csv,
+                    file_name='processed_reviews.csv',
+                    mime='text/csv',
+                )
 
+# Function to create tabs for Page 3
+def page3():
+    st.header("Restocking Chicken Breast")  # Heading for Page 3
+    tab1, tab2 = st.tabs(["Tab 1", "Tab 2"])
+    with tab1:
+        st.write("Content of Page 3, Tab 1")
+    with tab2:
+        st.write("Content of Page 3, Tab 2")
 
-with tab2:
-    st.header("Upload CSV for Bulk Analysis")
-    st.markdown("Please upload a CSV file with two columns: 'Reviewer Name' and 'Review Text'")
-    uploaded_file = st.file_uploader("Choose a CSV file", type=["csv"])
-    if uploaded_file is not None:
-        st.write("File uploaded successfully.")
-        data, error = process_csv(uploaded_file)
-        if error:
-            st.error(f"Error: {error}")
-        elif data is not None:
-            st.write("CSV processing completed without any error.")
-            st.write("Analysis Complete. Here are the results:")
-            st.dataframe(data[['Reviewer Name', 'Review Text', 'Sentiment', 'Topic']])
-            # Convert DataFrame to CSV for download
-            csv = data.to_csv(index=False).encode('utf-8')
-            st.download_button(
-                label="Download processed CSV",
-                data=csv,
-                file_name='processed_reviews.csv',
-                mime='text/csv',
-            )
+# Main function to manage navigation and universal app title
+def main():
+    st.title("Mezyan - Analytical Approach")  # Universal title for the app
+
+    st.sidebar.title("Navigation")
+    page = st.sidebar.radio("Select a Page", ["Mezyan", "Customer Feedback", "Restocking Chicken Breast"])
+
+    if page == "Mezyan":
+        page1()
+    elif page == "Customer Feedback":
+        page2()
+    elif page == "Restocking Chicken Breast":
+        page3()
+
+if __name__ == "__main__":
+    main()
