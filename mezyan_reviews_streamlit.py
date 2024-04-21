@@ -400,7 +400,7 @@ def page3():
         sentiment_value = 1 if sentiment_type == 'Positive' else 0
         
         # Allow users to input a custom number of reviews to view
-        num_reviews = st.number_input("Set the number of Reviews to View:", min_value=1, value=5, step=1)
+        num_reviews = st.number_input("Set the number of Reviews to View:", min_value=1, value=3, step=1)
         
         # Filter button
         if st.button('Filter Reviews'):
@@ -427,7 +427,7 @@ def page3():
         selected_topic = st.selectbox("Choose a Topic:", topic_list)
         
         # Allow users to input the number of reviews to view
-        num_reviews = st.number_input("Set the number of Reviews to View for the selected topic:", min_value=1, value=5, step=1)
+        num_reviews = st.number_input("Set the number of Reviews to View for the selected topic:", min_value=1, value=3, step=1)
         
         # Retrieve button
         if st.button('Retrieve Reviews'):
