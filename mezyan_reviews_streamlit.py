@@ -18,7 +18,7 @@ from umap import UMAP
 import streamlit as st
 
 all_reviews = pd.read_csv('all_reviews.csv', encoding='latin1')
-
+stop_words = set(stopwords.words('english'))
 def preprocess_text_1(text):
 
     # Replace the backslash with out of (3/5 with 3 out of 5)
@@ -114,7 +114,6 @@ def preprocess_text_2(text):
     tokens = combine_out_of(tokens)
 
     # Remove stop words
-    stop_words = set(stopwords.words('english'))
     negation_words = {'not', 'no', 'never'}
     stop_words = stop_words - negation_words
     filtered_tokens = [word for word in tokens if word not in stop_words]
