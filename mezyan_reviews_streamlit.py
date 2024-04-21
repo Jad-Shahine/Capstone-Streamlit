@@ -277,34 +277,71 @@ topic_names = {
 }
 
 
-# Function to scrape reviews
+
 def scrape_google_maps_reviews(url, duration):
     # Setup Chrome options
     chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument("--headless")  # Run in headless mode
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    driver = webdriver.Chrome(options=chrome_options)
+    chrome_options.add_argument("--lang=en-GB")
 
+    try:
+        driver = webdriver.Chrome(options=chrome_options)
+    except SessionNotCreatedException:
+        print("Error: Chrome driver (v114) and Chrome version installed on this computer are different. Please make sure that Chrome version is v114.")
+        return
+
+    # Open the URL
     driver.get(url)
-    time.sleep(duration)  # Simplified pause for demo purposes
 
-    # Simplified scraping logic for example
+    # Wait for the page elements to load
+    wait = WebDriverWait(driver, 10)
+    try:
+        menu_bt = wait.until(EC.element_to_be_clickable((By.XPATH, '//button[@data-value=\'Sort\']')))
+        menu_bt.click()
+    except Exception as e:
+        print("Error finding or clicking 'Sort' button:", e)
+        driver.quit()
+        return
+
+    time.sleep(5)
+
+    # Calculate the number of presses needed
+    interval = 1    # interval in seconds between each press
+    num_presses = duration // interval
+
+    # Perform the sequence of pressing End key
+    for _ in range(num_presses):
+        action = ActionChains(driver)
+        action.send_keys(Keys.END).perform()
+        time.sleep(interval)
+
+    time.sleep(5)  # Wait an additional 5 seconds after the loop
+
+    # Find the 'More' buttons and click them
+    more_buttons = driver.find_elements(By.XPATH, '//button[text()="More"]')
+    for button in more_buttons:
+        try:
+            button.click()
+            time.sleep(2)  # Small delay to allow content to load
+        except Exception as e:
+            print("Error clicking 'More' button:", e)
+
+    # Process and store reviews
     response = BeautifulSoup(driver.page_source, 'html.parser')
-    reviews = [{'Review Name': 'Sample Name', 'Review Rating': '5 stars', 'Review Text': 'Great place!'}]  # Dummy data
+    review_elements = response.find_all('div', class_='jftiEf')
+    reviews = get_review_summary(review_elements)
 
-    driver.quit()
-    return reviews
-
-# Save reviews to a CSV file and return path
-def save_reviews(reviews):
+    # Save reviews to a CSV file
     reviews_scraped = 'reviews.csv'
     with open(reviews_scraped, 'w', newline='', encoding='utf-8') as file:
         writer = csv.DictWriter(file, fieldnames=['Review Name', 'Review Rating', 'Review Text'])
         writer.writeheader()
         for review in reviews:
             writer.writerow(review)
-    return reviews_scraped
+
+    # Quit
+    driver.quit()
+
+
 
 
 
