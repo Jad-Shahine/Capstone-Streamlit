@@ -414,11 +414,10 @@ with tab1:
     st.header("Analyze a Single Review")
     name = st.text_input("Name")
     review = st.text_area("Review")
-    if st.button("Analyze Sentiment"):
-        predicted_sentiment = predict_sentiment_with_probability(review)
-        aligned_sentiment = align_sentiment(predicted_sentiment)
-        sentiment_label = 'Positive' if aligned_sentiment == 1 else 'Negative'
-        st.write(f"""{name} just left a {sentiment_label} review
+    if st.button("Analyze"):
+        sentiment, topic_name = analyze_text(review)
+        sentiment_label = 'Positive' if sentiment == 1 else 'Negative'
+        st.write(f"""{name} just left a {sentiment_label} review about {topic_name}")
         {review}""")
 
 with tab2:
