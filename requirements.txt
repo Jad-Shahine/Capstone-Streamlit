@@ -1,1 +1,16 @@
+umap-learn == 0.5.3
+bertopic
+contractions
+gensim
+matplotlib
+nltk
+numpy
+pandas
+scikit_learn
+scipy==1.10.1
+seaborn
 streamlit
+torch
+packaging==21.3
+pyyaml
+transformers==4.3.3
