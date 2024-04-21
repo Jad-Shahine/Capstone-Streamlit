@@ -287,7 +287,14 @@ def page2():
         st.header("Analyze a Single Review")
         name = st.text_input("Name")
         review = st.text_area("Review")
-        st.markdown('<p class="small-font">I loved the mezza, very good food.<br>Bad. The food lacked flavor, drinks are watered down.</p>', unsafe_allow_html=True)
+        st.markdown("""
+        <style>
+        .small-font {
+            font-size:12px;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+        st.markdown('<p class="small-font">Example:<br>I loved the mezza, very good food.<br>Bad. The food lacked flavor, drinks are watered down.</p>', unsafe_allow_html=True)
 
         if st.button("Analyze Sentiment"):
             predicted_sentiment, topic_name = analyze_text(review)
