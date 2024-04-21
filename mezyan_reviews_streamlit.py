@@ -364,6 +364,7 @@ def page2():
     <style>
     .small-font {
         font-size:12px;
+        color: red;
     }
     </style>
     """, unsafe_allow_html=True)
