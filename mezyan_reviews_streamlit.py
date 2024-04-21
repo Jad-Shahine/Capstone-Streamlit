@@ -248,7 +248,8 @@ def process_csv(file):
             return None, "CSV file must contain exactly two columns named 'Reviewer Name' and 'Review Text'."
         st.write("sa7 hon")
         st.write(df['Review Text'].info())
-        
+        st.write("sa7 hon 2")
+
         df['Sentiment'] = df['Review Text'].apply(lambda x: predict_sentiment(x))
         st.write("Sentiment analysis completed.")
 
