@@ -236,22 +236,14 @@ def analyze_text(text):
     
     return predicted_sentiment, topic_name
 
-def predict_sentiment(text):
-    predicted_sentiment = RF_pipeline.predict([text])[0]
-    return predicted_sentiment
-
 def process_csv(file):
     try:
         df = pd.read_csv(file, encoding='latin 1')
         df = df.dropna()
         if 'Reviewer Name' not in df.columns or 'Review Text' not in df.columns:
             return None, "CSV file must contain exactly two columns named 'Reviewer Name' and 'Review Text'."
-        st.write("sa7 hon")
-        st.write(df.head())
-        st.write(df.dtypes)
-        st.write("sa7 hon 2")
 
-        df['Sentiment'] = df['Review Text'].apply(lambda x: predict_sentiment(x))
+        df['Sentiment'] = RF_pipeline.predict(df['Review Text'])
         st.write("Sentiment analysis completed.")
 
         df['Processed Review Text'] = df['Review Text'].apply(preprocess_text_1)
