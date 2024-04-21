@@ -2,7 +2,7 @@ def main():
     st.set_page_config(page_title="Mezyan", page_icon=":palm_tree:", layout="wide")
 
     st.title("Mezyan")
-    st.image("path_to_logo.jpg", width=200)  # Adjust path to your logo image
+    st.image("Mezyan Logo.png", width=200)
     st.subheader("South Mediterranean trattoria and café")
     st.write("Serving a range of Lebanese, Armenian, Moroccan dishes and local wines.")
     st.write("Address: Beirut, Hamra Street, Rasamny building")
