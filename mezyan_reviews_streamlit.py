@@ -247,7 +247,7 @@ def process_csv(file):
         if 'Reviewer Name' not in df.columns or 'Review Text' not in df.columns:
             return None, "CSV file must contain exactly two columns named 'Reviewer Name' and 'Review Text'."
         st.write("sa7 hon")
-        st.write("Type of 'Review Text' column:", type(df['Review Text']))
+        st.write(data['Review Text'].info())
         
         df['Sentiment'] = df['Review Text'].apply(lambda x: predict_sentiment(x))
         st.write("Sentiment analysis completed.")
