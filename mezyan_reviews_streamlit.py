@@ -222,10 +222,18 @@ review_topics_df['Topic Name'] = review_topics_df['Topic'].map(topic_names)
 # top_10_reviews = sorted_reviews.head(5)
 
 def analyze_text(text):
-    processed_text = preprocess_text_1(text)
-    predicted_sentiment = RF_pipeline.predict([text])[0]
-    topics, _ = topic_model.fit_transform([processed_text])
+    # Convert text to a Series
+    text_series = pd.Series([text])
+    processed_text = preprocess_text_1(text_series.iloc[0])
+    
+    # Predict sentiment
+    predicted_sentiment = RF_pipeline.predict(text_series)[0]
+
+    # Process the text for topic modeling
+    processed_text_series = pd.Series([processed_text])
+    topics, _ = topic_model.fit_transform(processed_text_series)
     topic_name = topic_names.get(topics[0], "Unknown Topic")
+    
     return predicted_sentiment, topic_name
 
 def predict_sentiment(text):
