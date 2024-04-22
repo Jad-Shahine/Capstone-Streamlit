@@ -9,3 +9,4 @@ umap-learn
 regex==2022.3.15
 Cython
 torch
+sympy
