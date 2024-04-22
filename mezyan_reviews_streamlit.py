@@ -25,8 +25,16 @@ import streamlit as st
 
 
 
-all_reviews = pd.read_csv('all_reviews.csv', encoding='latin1')
+@st.cache
+def load_and_preprocess_data(file):
+    all_reviews = pd.read_csv(file, encoding='latin1')
+    all_reviews = all_reviews.dropna()
+    return all_reviews
 
+all_reviews = load_data('all_reviews.csv')
+
+
+@st.cache
 def preprocess_text_1(text):
 
     # Replace the backslash with out of (3/5 with 3 out of 5)
@@ -84,6 +92,7 @@ def preprocess_text_1(text):
 
 stop_wordss = set(stopwords.words('english'))
 
+@st.cache
 def preprocess_text_2(text):
 
     # Replace the backslash with out of (3/5 with 3 out of 5)
@@ -124,8 +133,9 @@ def preprocess_text_2(text):
     tokens = combine_out_of(tokens)
 
     # Remove stop words
+    words_stops = set(stopwords.words('english'))
     negation_words = {'not', 'no', 'never'}
-    stop_words = stop_wordss - negation_words
+    stop_words = words_stops - negation_words
     filtered_tokens = [word for word in tokens if word not in stop_words]
 
     # Lemmatization
@@ -144,7 +154,6 @@ def preprocess_text_2(text):
 
     return text
 
-all_reviews = all_reviews.dropna()
 preprocess = FunctionTransformer(lambda X: X.apply(preprocess_text_2), validate=False)
 
 RF_pipeline = Pipeline([
@@ -158,24 +167,38 @@ X = all_reviews['Review Text']
 y = all_reviews['Sentiment']
 RF_pipeline.fit(X, y)
 
-# Filter only the negative reviews
-negative_reviews = all_reviews[all_reviews['Sentiment'] == 0]
+@st.cache
+def filter_and_process_reviews(all_reviews):
+    # Filter only the negative reviews
+    negative_reviews = all_reviews[all_reviews['Sentiment'] == 0]
 
-negative_reviews['Processed Review Text'] = negative_reviews['Review Text'].apply(preprocess_text_1)
-selected_columns = ['Review Name', 'Review Text', 'Processed Review Text', 'Sentiment']
-negative_reviews = negative_reviews[selected_columns]
+    # Apply preprocessing to the 'Review Text' column
+    # This assumes that 'preprocess_text_1' is idempotent and does not modify external state
+    negative_reviews['Processed Review Text'] = negative_reviews['Review Text'].apply(preprocess_text_1)
 
-# Setting random_state in UMAP for reproducibility
-umap_model = UMAP(n_neighbors=15, n_components=5, min_dist=0.0, metric='cosine', random_state=42)
+    # Select the columns to display
+    selected_columns = ['Review Name', 'Review Text', 'Processed Review Text', 'Sentiment']
+    negative_reviews = negative_reviews[selected_columns]
 
-# Instantiate BERTopic with the UMAP model
-topic_model = BERTopic(umap_model=umap_model, n_gram_range=(3, 10), language="english")
+    return negative_reviews
+negative_reviews = filter_and_process_reviews(all_reviews)
 
-# Fit the model
-topics, probabilities = topic_model.fit_transform(negative_reviews['Processed Review Text'])
-topic_model.visualize_topics()
 
-# Create a DataFrame containing the reviews and their assigned topics
+@st.cache(allow_output_mutation=True)  # allow_output_mutation is needed as BERTopic uses complex objects
+def perform_topic_modeling(data):
+    umap_model = UMAP(n_neighbors=15, n_components=5, min_dist=0.0, metric='cosine', random_state=42)
+    topic_model = BERTopic(umap_model=umap_model, n_gram_range=(3, 10), language="english")
+    topics, probabilities = topic_model.fit_transform(data)
+    return topics, probabilities, topic_model
+
+topics, probabilities, topic_model = perform_topic_modeling(negative_reviews['Processed Review Text'])
+
+review_topics_df = pd.DataFrame({
+    'Review': negative_reviews['Review Text'],
+    'Topic': topics
+})
+
+
 review_topics_df = pd.DataFrame({
     'Review': negative_reviews['Review Text'],
     'Topic': topics
@@ -230,21 +253,23 @@ review_topics_df['Topic Name'] = review_topics_df['Topic'].map(topic_names)
 # sorted_reviews = negative_reviews.sort_values(by='Review Text', key=lambda x: x.str.len(), ascending=False)
 # top_10_reviews = sorted_reviews.head(5)
 
-def analyze_text(text):
+@st.cache(allow_output_mutation=True)
+def analyze_text(text, topic_model, topic_names):
     # Convert text to a Series
     text_series = pd.Series([text])
     processed_text = preprocess_text_1(text_series.iloc[0])
     
-    # Predict sentiment
+    # Predict sentiment using the pre-trained RandomForest model
     predicted_sentiment = RF_pipeline.predict(text_series)[0]
 
-    # Process the text for topic modeling
+    # Process the text for topic modeling using BERTopic
     processed_text_series = pd.Series([processed_text])
     topics, _ = topic_model.transform(processed_text_series)
     topic_name = topic_names.get(topics[0], "Unknown Topic")
     
     return predicted_sentiment, topic_name
 
+@st.cache(allow_output_mutation=True)
 def process_csv(file):
     try:
         df = pd.read_csv(file, encoding='latin 1')
@@ -260,6 +285,36 @@ def process_csv(file):
         return df, None
     except Exception as e:
         return None, str(e)
+
+def process_csv(file):
+    try:
+        df = load_data(file)
+
+        # Ensure the required columns exist
+        if 'Reviewer Name' not in df.columns or 'Review Text' not in df.columns:
+            return None, "CSV file must contain exactly two columns named 'Reviewer Name' and 'Review Text'."
+
+        # Sentiment analysis
+        df['Sentiment'] = RF_pipeline.predict(df['Review Text'])
+        
+        # Text processing for topic modeling
+        df['Processed Review Text'] = df['Review Text'].apply(preprocess_text_1)
+        processed_texts = df['Processed Review Text'].tolist()
+        topics, _ = topic_model.transform(processed_texts)
+        df['Topic'] = [topic_model.get_topic_info().loc[topic]['Name'] if topic in topic_model.get_topic_info().index else "Unknown Topic" for topic in topics]
+
+        # Clean up dataframe
+        df = df.drop('Processed Review Text', axis=1)
+        return df, None
+    except Exception as e:
+        return None, str(e)
+
+
+
+
+
+
+
 
 topic_names = {
     0:"Food, Drinks, & General",
