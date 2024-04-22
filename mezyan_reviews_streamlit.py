@@ -252,37 +252,37 @@ import streamlit as st
 #     except Exception as e:
 #         return None, str(e)
 
-# topic_names = {
-#     0:"Food, Drinks, & General",
-#     1:"Food, Drinks, & General",
-#     2:"Food, Drinks, & General",
-#     3:"Service Quality & Staff",
-#     4:"Service Quality & Staff",
-#     5:"Service Quality & Staff",
-#     6:"Food, Drinks, & General",
-#     7:"Food, Drinks, & General",
-#     8:"Ambiance & Music",
-#     9:"Physical Setting & Hygiene",
-#     10:"Physical Setting & Hygiene",
-#     11:"Drinks",
-#     -1:"General"
-# }
+topic_names = {
+    0:"Food, Drinks, & General",
+    1:"Food, Drinks, & General",
+    2:"Food, Drinks, & General",
+    3:"Service Quality & Staff",
+    4:"Service Quality & Staff",
+    5:"Service Quality & Staff",
+    6:"Food, Drinks, & General",
+    7:"Food, Drinks, & General",
+    8:"Ambiance & Music",
+    9:"Physical Setting & Hygiene",
+    10:"Physical Setting & Hygiene",
+    11:"Drinks",
+    -1:"General"
+}
 
-# # Function to create tabs for Page 1
-# def page1():
-#     st.header("Mezyan")  # Heading for Page 1
-#     tab1, tab2 = st.tabs(["Tab 1", "Tab 2"])
-#     with tab1:
-#         st.write("Content of Page 1, Tab 1")
-#     with tab2:
-#         st.write("Content of Page 1, Tab 2")
+# Function to create tabs for Page 1
+def page1():
+    st.header("Mezyan")  # Heading for Page 1
+    tab1, tab2 = st.tabs(["Tab 1", "Tab 2"])
+    with tab1:
+        st.write("Content of Page 1, Tab 1")
+    with tab2:
+        st.write("Content of Page 1, Tab 2")
 
-# # Function to create tabs for Page 2
-# def page2():
-#     st.header("Automatic Web Scraper from Google Maps Review Page")  # Heading for Page 2
-#     tab1 = st.tabs(["Tab 1"])
-#     with tab1:
-#         st.write("Content of Page 2, Tab 1")
+# Function to create tabs for Page 2
+def page2():
+    st.header("Automatic Web Scraper from Google Maps Review Page")  # Heading for Page 2
+    tab1 = st.tabs(["Tab 1"])
+    with tab1:
+        st.write("Content of Page 2, Tab 1")
     
         
 
