@@ -286,64 +286,64 @@ import streamlit as st
     
         
 
-# # Function to create tabs for Page 3
-# def page3():
-#     st.header("Customer Feedback")  # Heading for Page 3
-#     tab1, tab2, tab3 = st.tabs(["Review Analysis","New Review", "New Bulk Reviews via CSV"])
-#     with tab1:
-#         st.write("Content of Page 2, Tab 1")
-#     with tab2:
-#         st.header("Analyze a Single Review")
-#         name = st.text_input("Name")
-#         review = st.text_area("Review")
-#         if st.button("Analyze Sentiment"):
-#             predicted_sentiment, topic_name = analyze_text(review)
-#             sentiment_label = 'Positive' if predicted_sentiment == 1 else 'Negative'
-#             st.write(f"{name} just left a {sentiment_label} review (Topic: {topic_name})")
+# Function to create tabs for Page 3
+def page3():
+    st.header("Customer Feedback")  # Heading for Page 3
+    tab1, tab2, tab3 = st.tabs(["Review Analysis","New Review", "New Bulk Reviews via CSV"])
+    with tab1:
+        st.write("Content of Page 2, Tab 1")
+    with tab2:
+        st.header("Analyze a Single Review")
+        name = st.text_input("Name")
+        review = st.text_area("Review")
+        if st.button("Analyze Sentiment"):
+            predicted_sentiment, topic_name = analyze_text(review)
+            sentiment_label = 'Positive' if predicted_sentiment == 1 else 'Negative'
+            st.write(f"{name} just left a {sentiment_label} review (Topic: {topic_name})")
 
-#     with tab3:
-#         st.header("Upload CSV for Bulk Analysis")
-#         st.markdown("Please upload a CSV file with two columns: 'Reviewer Name' and 'Review Text'")
-#         uploaded_file = st.file_uploader("Choose a CSV file", type=["csv"])
-#         if uploaded_file is not None:
-#             data, error = process_csv(uploaded_file)
-#             if error:
-#                 st.error(f"Error: {error}")
-#             elif data is not None:
-#                 st.write("Analysis Complete. Here are the results:")
-#                 st.dataframe(data[['Reviewer Name', 'Review Text', 'Sentiment', 'Topic']])
-#                 # Convert DataFrame to CSV for download
-#                 csv = data.to_csv(index=False).encode('utf-8')
-#                 st.download_button(
-#                     label="Download processed CSV",
-#                     data=csv,
-#                     file_name='processed_reviews.csv',
-#                     mime='text/csv',
-#                 )
+    with tab3:
+        st.header("Upload CSV for Bulk Analysis")
+        st.markdown("Please upload a CSV file with two columns: 'Reviewer Name' and 'Review Text'")
+        uploaded_file = st.file_uploader("Choose a CSV file", type=["csv"])
+        if uploaded_file is not None:
+            data, error = process_csv(uploaded_file)
+            if error:
+                st.error(f"Error: {error}")
+            elif data is not None:
+                st.write("Analysis Complete. Here are the results:")
+                st.dataframe(data[['Reviewer Name', 'Review Text', 'Sentiment', 'Topic']])
+                # Convert DataFrame to CSV for download
+                csv = data.to_csv(index=False).encode('utf-8')
+                st.download_button(
+                    label="Download processed CSV",
+                    data=csv,
+                    file_name='processed_reviews.csv',
+                    mime='text/csv',
+                )
 
-# # Function to create tabs for Page 4
-# def page4():
-#     st.header("Restocking Chicken Breast")  # Heading for Page 4
-#     tab1, tab2 = st.tabs(["Tab 1", "Tab 2"])
-#     with tab1:
-#         st.write("Content of Page 4, Tab 1")
-#     with tab2:
-#         st.write("Content of Page 4, Tab 2")
+# Function to create tabs for Page 4
+def page4():
+    st.header("Restocking Chicken Breast")  # Heading for Page 4
+    tab1, tab2 = st.tabs(["Tab 1", "Tab 2"])
+    with tab1:
+        st.write("Content of Page 4, Tab 1")
+    with tab2:
+        st.write("Content of Page 4, Tab 2")
 
-# # Main function to manage navigation and universal app title
+# Main function to manage navigation and universal app title
 def main():
     st.title("Mezyan - Analytical Approach")  # Universal title for the app
 
-#     st.sidebar.title("Navigation")
-#     page = st.sidebar.radio("Select a Page", ["Mezyan", "Web Scraper", "Customer Feedback", "Restocking Chicken Breast"])
+    st.sidebar.title("Navigation")
+    page = st.sidebar.radio("Select a Page", ["Mezyan", "Web Scraper", "Customer Feedback", "Restocking Chicken Breast"])
 
-#     if page == "Mezyan":
-#         page1()
-#     elif page == "Web Scraper":
-#         page2()
-#     elif page == "Customer Feedback":
-#         page3()
-#     elif page == "Restocking Chicken Breast":
+    if page == "Mezyan":
+        page1()
+    elif page == "Web Scraper":
+        page2()
+    elif page == "Customer Feedback":
+        page3()
+    elif page == "Restocking Chicken Breast":
 #         page4()
 
 # if __name__ == "__main__":
