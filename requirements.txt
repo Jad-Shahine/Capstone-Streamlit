@@ -7,4 +7,3 @@ contractions
 umap-learn
 regex==2022.3.15
 bertopic
-BERTopic
