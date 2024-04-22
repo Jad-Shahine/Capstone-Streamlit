@@ -15,7 +15,7 @@ nltk.download('stopwords')
 nltk.download('wordnet')
 from umap import UMAP
 import streamlit as st
-# from bertopic import BERTopic
+from bertopic import BERTopic
 
 # all_reviews = pd.read_csv('all_reviews.csv', encoding='latin1')
 # stop_wordss = set(stopwords.words('english'))
