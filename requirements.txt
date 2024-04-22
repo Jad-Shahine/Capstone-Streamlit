@@ -1,4 +1,4 @@
-bertopic
+BERTopic
 numpy
 pandas
 nltk
