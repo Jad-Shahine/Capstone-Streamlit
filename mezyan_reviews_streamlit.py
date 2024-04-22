@@ -14,7 +14,7 @@ nltk.download('punkt')
 nltk.download('stopwords')
 nltk.download('wordnet')
 # from bertopic import BERTopic
-import BERTopic
+import BERTopic from bertopic
 from umap import UMAP
 import streamlit as st
 #from selenium import webdriver
