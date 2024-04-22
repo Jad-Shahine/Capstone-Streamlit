@@ -331,8 +331,8 @@ import streamlit as st
 #         st.write("Content of Page 4, Tab 2")
 
 # # Main function to manage navigation and universal app title
-# def main():
-#     st.title("Mezyan - Analytical Approach")  # Universal title for the app
+def main():
+    st.title("Mezyan - Analytical Approach")  # Universal title for the app
 
 #     st.sidebar.title("Navigation")
 #     page = st.sidebar.radio("Select a Page", ["Mezyan", "Web Scraper", "Customer Feedback", "Restocking Chicken Breast"])
