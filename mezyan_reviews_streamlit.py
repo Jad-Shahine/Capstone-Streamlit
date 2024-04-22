@@ -1,4 +1,4 @@
-import BERTopic
+from bertopic import BERTopic
 import numpy as np
 import pandas as pd
 import re
