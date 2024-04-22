@@ -26,7 +26,6 @@ import streamlit as st
 
 
 all_reviews = pd.read_csv('all_reviews.csv', encoding='latin1')
-stop_wordss = set(stopwords.words('english'))
 
 def preprocess_text_1(text):
 
@@ -82,6 +81,8 @@ def preprocess_text_1(text):
     text = ' '.join(final_tokens)
 
     return text
+
+stop_wordss = set(stopwords.words('english'))
 
 def preprocess_text_2(text):
 
