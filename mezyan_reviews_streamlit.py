@@ -1,19 +1,19 @@
-# import numpy as np
-# import pandas as pd
-# import re
-# import nltk
-# import contractions
-# from nltk.tokenize import word_tokenize
-# from nltk.corpus import stopwords
-# from nltk.stem import WordNetLemmatizer
-# from sklearn.pipeline import Pipeline
-# from sklearn.feature_extraction.text import TfidfVectorizer
-# from sklearn.ensemble import RandomForestClassifier
-# from sklearn.preprocessing import FunctionTransformer
-# nltk.download('punkt')
-# nltk.download('stopwords')
-# nltk.download('wordnet')
-# from umap import UMAP
+import numpy as np
+import pandas as pd
+import re
+import nltk
+import contractions
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+from sklearn.pipeline import Pipeline
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.preprocessing import FunctionTransformer
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('wordnet')
+from umap import UMAP
 import streamlit as st
 from bertopic import BERTopic
 
