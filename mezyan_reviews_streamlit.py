@@ -344,7 +344,7 @@ def main():
     elif page == "Customer Feedback":
         page3()
     elif page == "Restocking Chicken Breast":
-#         page4()
+        page4()
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()
