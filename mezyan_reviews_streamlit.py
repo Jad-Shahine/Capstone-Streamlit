@@ -268,6 +268,7 @@ topic_names = {
     -1:"General"
 }
 
+
 # Function to create tabs for Page 1
 def page1():
     st.header("Mezyan")  # Heading for Page 1
@@ -280,28 +281,116 @@ def page1():
 # Function to create tabs for Page 2
 def page2():
     st.header("Automatic Web Scraper from Google Maps Review Page")  # Heading for Page 2
-    tab1 = st.tabs(["Tab 1"])
-    with tab1:
-        st.write("Content of Page 2, Tab 1")
+    st.write("")
+    url = st.text_input('Enter the Google Maps URL:')
+    duration = st.number_input('Enter duration for scraping (in seconds):', min_value=5, max_value=5000, value=30)
+    st.markdown("""
+    <style>
+    .small-font {
+        font-size:12px;
+        color: red;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    st.markdown('<p class="small-font">Duration is based on the internet speed available<br>For a decent internet service a good duation would be equal to the number of reviews x 0.75</p>', unsafe_allow_html=True)        
+    st.write("")
+
+    st.write("Due to the limited resources available on Streamlit, this service has been disabled")
     
+    # if st.button('Scrape Reviews'):
+    #     if url:
+    #         reviews = scrape_google_maps_reviews(url, duration)
+    #         file_path = save_reviews(reviews)
+    #         st.success('Scraping done! Download your file below.')
+    #         with open(file_path, "rb") as file:
+    #             btn = st.download_button(
+    #                 label="Download CSV",
+    #                 data=file,
+    #                 file_name="reviews.csv",
+    #                 mime="text/csv",
+    #             )
+    #     else:
+    #         st.error('Please enter a valid URL.')    
         
 
 # Function to create tabs for Page 3
 def page3():
     st.header("Customer Feedback")  # Heading for Page 3
-    tab1, tab2, tab3 = st.tabs(["Review Analysis","New Review", "New Bulk Reviews via CSV"])
+    tab1, tab2, tab3, tab4 = st.tabs(["Review Sentiment", "Negative Reviews by Topic", "New Review", "New Bulk Reviews via CSV"])
     with tab1:
-        st.write("Content of Page 2, Tab 1")
+        # User selects sentiment type
+        sentiment_type = st.radio("Choose Sentiment Type:", ('Positive', 'Negative'))
+        sentiment_value = 1 if sentiment_type == 'Positive' else 0
+        
+        # Allow users to input a custom number of reviews to view
+        num_reviews = st.number_input("Set the number of Reviews to View:", min_value=1, value=3, step=1)
+        
+        # Filter button
+        if st.button('Filter Reviews'):
+            # Ensure the DataFrame filtering does not exceed available reviews
+            max_reviews = len(all_reviews[sorted_reviews['Sentiment'] == sentiment_value])
+            num_reviews = min(num_reviews, max_reviews)
+        
+            # Filter the DataFrame based on the user's choice
+            filtered_reviews = all_reviews[all_reviews['Sentiment'] == sentiment_value][:num_reviews]
+        
+            # Display the reviews
+            if not filtered_reviews.empty:
+                st.write(f"Showing top {num_reviews} {sentiment_type.lower()} reviews:")
+                for index, row in filtered_reviews.iterrows():
+                    st.write(f"Review {index + 1}: {row['Review Text']}")
+            else:
+                st.write("No reviews to display.")     
+        
     with tab2:
+        # List of unique topics
+        topic_list = review_topics_df['Topic Name'].unique()
+        
+        # User selects a topic
+        selected_topic = st.selectbox("Choose a Topic:", topic_list)
+        
+        # Allow users to input the number of reviews to view
+        num_reviews = st.number_input("Set the number of Reviews to View for the selected topic:", min_value=1, value=2, step=1)
+        
+        # Retrieve button
+        if st.button('Retrieve Reviews'):
+            # Filter the DataFrame based on the selected topic
+            topic_reviews = review_topics_df[review_topics_df['Topic Name'] == selected_topic][:num_reviews]
+        
+            # Display the reviews
+            if not topic_reviews.empty:
+                st.write(f"Showing top {num_reviews} reviews for {selected_topic}:")
+                for index, row in topic_reviews.iterrows():
+                    st.write(f"Review {index + 1}: {row['Review']}")
+            else:
+                st.write("No reviews available for the selected topic.")
+
+
+
+
+
+
+        
+    with tab3:
         st.header("Analyze a Single Review")
         name = st.text_input("Name")
         review = st.text_area("Review")
+        st.markdown("""
+        <style>
+        .small-font {
+            font-size:12px;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+        
+        # Using <br> tag to create a new line in HTML
+        st.markdown('<p class="small-font">Example:<br>I loved the mezza, very good food.<br>Bad. The food lacked flavor, drinks are watered down.</p>', unsafe_allow_html=True)        
         if st.button("Analyze Sentiment"):
             predicted_sentiment, topic_name = analyze_text(review)
             sentiment_label = 'Positive' if predicted_sentiment == 1 else 'Negative'
             st.write(f"{name} just left a {sentiment_label} review (Topic: {topic_name})")
 
-    with tab3:
+    with tab4:
         st.header("Upload CSV for Bulk Analysis")
         st.markdown("Please upload a CSV file with two columns: 'Reviewer Name' and 'Review Text'")
         uploaded_file = st.file_uploader("Choose a CSV file", type=["csv"])
