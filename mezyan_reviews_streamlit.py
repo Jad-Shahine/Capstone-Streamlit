@@ -1,7 +1,7 @@
+import bertopic
 import numpy as np
 import pandas as pd
 import re
-import torch
 import nltk
 import contractions
 from nltk.tokenize import word_tokenize
@@ -14,7 +14,6 @@ from sklearn.preprocessing import FunctionTransformer
 nltk.download('punkt')
 nltk.download('stopwords')
 nltk.download('wordnet')
-import bertopic
 from umap import UMAP
 import streamlit as st
 #from selenium import webdriver
